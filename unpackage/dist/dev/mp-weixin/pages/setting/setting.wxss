@@ -1,0 +1,54 @@
+
+.setting-container.data-v-018cdf56 {
+  padding: 20rpx 30rpx;
+  background-color: #f5f7fa;
+  min-height: 100vh;
+}
+.form-item.data-v-018cdf56 {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+  background: #fff;
+  border-radius: 8rpx;
+  margin-bottom: 15rpx;
+}
+.label.data-v-018cdf56 {
+  width: 180rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+.required.data-v-018cdf56::after {
+  content: '*';
+  color: #ff3b30;
+  margin-left: 5rpx;
+}
+.input.data-v-018cdf56 {
+  flex: 1;
+  font-size: 28rpx;
+  padding: 10rpx;
+  border: 1rpx solid #eee;
+  border-radius: 6rpx;
+}
+/* 分区标题 */
+.form-section.data-v-018cdf56 {
+  margin-top: 30rpx;
+}
+.section-title.data-v-018cdf56 {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15rpx;
+  padding-left: 10rpx;
+  border-left: 4rpx solid #007aff;
+}
+.save-btn.data-v-018cdf56 {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #007aff;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 32rpx;
+  margin-top: 20rpx;
+  border: none;
+}

@@ -1,0 +1,170 @@
+
+/* 全局容器 */
+.container.data-v-45953eac {
+  width: 100%;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* 搜索栏：极简风格 */
+.search-bar.data-v-45953eac {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+.picker.data-v-45953eac {
+  width: 130rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  text-align: center;
+  border: 1rpx solid #eee;
+  border-radius: 4rpx;
+  font-size: 26rpx;
+  box-sizing: border-box;
+}
+.search-input.data-v-45953eac {
+  flex: 1;
+  height: 68rpx;
+  margin: 0 10rpx;
+  padding: 0 12rpx;
+  border: 1rpx solid #eee;
+  border-radius: 4rpx;
+  font-size: 26rpx;
+  box-sizing: border-box;
+}
+.search-btn.data-v-45953eac {
+  width: 100rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  font-size: 26rpx;
+  padding: 0;
+  border-radius: 4rpx;
+}
+.add-btn.data-v-45953eac {
+  width: 110rpx;
+  height: 68rpx;
+  line-height: 68rpx;
+  background: #3cc800;
+  color: #fff;
+  border-radius: 4rpx;
+  font-size: 26rpx;
+  margin-left: 8rpx;
+  border: none;
+}
+
+/* 网关列表容器 */
+.gateway-list.data-v-45953eac {
+  padding: 10rpx;
+}
+
+/* 加载/空状态 */
+.empty.data-v-45953eac, .loading.data-v-45953eac, .load-more.data-v-45953eac, .no-more.data-v-45953eac {
+  padding: 25rpx 0;
+  text-align: center;
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* 网关项：极简卡片 */
+.gateway-item.data-v-45953eac {
+  background: #fff;
+  padding: 20rpx 15rpx;
+  margin: 0 5rpx 12rpx;
+  border-radius: 6rpx;
+  box-shadow: 0 1rpx 3rpx rgba(0,0,0,0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 140rpx; /* 固定最小高度，适配按钮垂直排列 */
+}
+
+/* 网关信息区域 */
+.gateway-info.data-v-45953eac {
+  flex: 1;
+}
+.item-row.data-v-45953eac {
+  display: flex;
+  align-items: center;
+  height: 56rpx;
+  margin-bottom: 8rpx;
+}
+.item-row.data-v-45953eac:last-child {
+  margin-bottom: 0;
+}
+.label.data-v-45953eac {
+  width: 130rpx;
+  color: #666;
+  font-size: 26rpx;
+  text-align: right;
+  padding-right: 15rpx;
+  white-space: nowrap;
+}
+.value.data-v-45953eac {
+  flex: 1;
+  color: #333;
+  font-size: 26rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 状态颜色 */
+.online.data-v-45953eac { color: #00c800;
+}
+.offline.data-v-45953eac { color: #999;
+}
+.repair.data-v-45953eac { color: #ff9500;
+}
+
+/* 操作按钮组：垂直排列 + 均分触摸区域（核心调整） */
+.action-group.data-v-45953eac {
+  display: flex;
+  flex-direction: column; /* 垂直排列 */
+  height: 120rpx; /* 固定高度，适配网关项 */
+  width: 80rpx; /* 按钮宽度 */
+  justify-content: space-between; /* 均分空间 */
+  align-items: center; /* 文字居中 */
+  margin-left: 15rpx;
+}
+
+/* 中间空格 */
+.space.data-v-45953eac {
+  height: 8rpx; /* 空格高度（间距） */
+  width: 100%;
+}
+
+/* 配网按钮：占上半部分触摸区域 */
+.config-btn.data-v-45953eac {
+  font-size: 26rpx;
+  color: #007aff;
+  cursor: pointer;
+  width: 100%;
+  height: 50%; /* 占按钮组高度的一半 */
+  line-height: 60rpx; /* 垂直居中 */
+  text-align: center; /* 水平居中 */
+}
+
+/* 详情按钮：占下半部分触摸区域 */
+.detail-btn.data-v-45953eac {
+  font-size: 26rpx;
+  color: #666;
+  cursor: pointer;
+  width: 100%;
+  height: 50%; /* 占按钮组高度的一半 */
+  line-height: 60rpx; /* 垂直居中 */
+  text-align: center; /* 水平居中 */
+}
+
+/* 点击反馈 */
+.config-btn.data-v-45953eac:active {
+  color: #0066cc;
+  background-color: #f0f7ff;
+  border-radius: 4rpx;
+}
+.detail-btn.data-v-45953eac:active {
+  color: #333;
+  background-color: #f5f5f5;
+  border-radius: 4rpx;
+}

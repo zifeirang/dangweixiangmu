@@ -1,0 +1,108 @@
+
+/* 全局容器（新增，避免内容溢出） */
+.container.data-v-e9352d7d {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+/* 搜索栏：确保组件紧凑对齐 */
+.search-bar.data-v-e9352d7d {
+  display: flex;
+  align-items: center;
+  padding: 12rpx 20rpx; /* 减少上下内边距，避免过高 */
+  background: #fff;
+  border-bottom: 1rpx solid #eee;
+}
+.picker.data-v-e9352d7d {
+  width: 110rpx; /* 加宽选择器，避免文字换行 */
+  height: 72rpx;
+  line-height: 72rpx;
+  text-align: center;
+  border: 1rpx solid #eee;
+  border-radius: 6rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+.search-input.data-v-e9352d7d {
+  flex: 1;
+  height: 72rpx;
+  margin: 0 12rpx; /* 减少左右间距，更紧凑 */
+  padding: 0 15rpx;
+  border: 1rpx solid #eee;
+  border-radius: 6rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+.search-btn.data-v-e9352d7d {
+  width: 110rpx;
+  height: 72rpx;
+  line-height: 72rpx;
+  font-size: 28rpx;
+  padding: 0;
+  border-radius: 6rpx;
+}
+
+/* 设备列表容器 */
+.device-list.data-v-e9352d7d {
+  padding: 10rpx;
+  background-color: #f9f9f9;
+}
+
+/* 列表项卡片 */
+.device-item.data-v-e9352d7d {
+  background: #fff;
+  padding: 10rpx 15rpx; /* 左右内边距加宽，给内容留空间 */
+  margin: 0 5rpx 1rpx; /* 统一左右外边距 */
+  border-radius: 8rpx;
+  box-shadow: 0 1rpx 3rpx rgba(0,0,0,0.05);
+}
+
+/* 列表项行：确保垂直方向完全居中 */
+.item-row.data-v-e9352d7d {
+  display: flex;
+  align-items: center; /* 垂直居中 */
+  height: 60rpx; /* 适当增加行高，避免内容挤压 */
+  margin-bottom: 8rpx; /* 减少行间距，更紧凑 */
+}
+.item-row.data-v-e9352d7d:last-child {
+  margin-bottom: 0;
+}
+
+/* 标签样式：统一宽度+右对齐，确保内容起始点一致 */
+.label.data-v-e9352d7d {
+  width: 100rpx; /* 固定宽度，足够容纳"网关："等标签 */
+  color: #666;
+  font-size: 29rpx;
+  text-align: left; /* 标签文字靠右对齐，右侧边缘整齐 */
+  padding-right: 10rpx; /* 标签与内容之间留固定间距，避免拥挤 */
+  white-space: nowrap; /* 强制不换行 */
+}
+
+/* 内容样式：确保所有内容（包括绿色"在线"）左对齐且起始点一致 */
+.value.data-v-e9352d7d {
+  flex: 1;
+  color: #333;
+  font-size: 25rpx;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* 新增：强制内容从同一水平位置开始 */
+  padding-left: 0; /* 去除左内边距，避免偏移 */
+}
+
+/* 状态颜色 */
+.online.data-v-e9352d7d { color: #00c800;
+}
+.offline.data-v-e9352d7d { color: #999;
+}
+.repair.data-v-e9352d7d { color: #ff9500;
+}
+
+/* 加载提示 */
+.empty.data-v-e9352d7d, .loading.data-v-e9352d7d, .load-more.data-v-e9352d7d, .no-more.data-v-e9352d7d {
+  padding: 30rpx 0;
+  text-align: center;
+  font-size: 28rpx;
+  color: #999;
+}

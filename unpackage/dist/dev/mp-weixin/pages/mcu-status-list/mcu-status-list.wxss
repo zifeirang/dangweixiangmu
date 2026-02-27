@@ -1,0 +1,430 @@
+
+/* 移除导航栏后，容器无需顶部 padding */
+.mcu-status-container.data-v-03a9c718 {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  padding-top: 0;
+  box-sizing: border-box;
+}
+
+/* 搜索栏（优化样式，新增筛选按钮样式） */
+.simple-search-bar.data-v-03a9c718 {
+  display: flex;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  gap: 8px;
+  margin-bottom: 8px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  align-items: center;
+}
+.search-input-wrapper.data-v-03a9c718 {
+  flex: 1;
+  position: relative;
+  height: 40px;
+}
+.search-icon.data-v-03a9c718 {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.search-input.data-v-03a9c718 {
+  width: 100%;
+  height: 100%;
+  padding: 0 14px 0 38px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #333;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+.search-input.data-v-03a9c718:focus {
+  border-color: #409eff;
+  box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+}
+.simple-filter-btn.data-v-03a9c718, .simple-trigger-btn.data-v-03a9c718 {
+  height: 40px;
+  padding: 0 16px;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: all 0.2s ease;
+}
+.simple-filter-btn.data-v-03a9c718 {
+  background: #909399;
+  color: #ffffff;
+}
+.simple-trigger-btn.data-v-03a9c718 {
+  background: linear-gradient(to right, #409eff, #5cadff);
+  color: #ffffff;
+}
+.simple-filter-btn.data-v-03a9c718:active, .simple-trigger-btn.data-v-03a9c718:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+.btn-icon.data-v-03a9c718 {
+  transition: all 0.3s ease;
+}
+.simple-trigger-btn[loading] .btn-icon.data-v-03a9c718 {
+  animation: rotate-03a9c718 1s linear infinite;
+}
+@keyframes rotate-03a9c718 {
+from { transform: rotate(0deg);
+}
+to { transform: rotate(360deg);
+}
+}
+
+/* 筛选弹窗样式（优化视觉+单选框样式） */
+.filter-popup.data-v-03a9c718 {
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  animation: slideUp-03a9c718 0.3s ease-out;
+}
+/* 遮罩层样式强化 */
+.uni-popup__mask.data-v-03a9c718 {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+@keyframes slideUp-03a9c718 {
+from { transform: translateY(100%); opacity: 0;
+}
+to { transform: translateY(0); opacity: 1;
+}
+}
+.filter-title.data-v-03a9c718 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24px;
+  text-align: center;
+  position: relative;
+}
+.filter-title.data-v-03a9c718::after {
+  content: '';
+  display: block;
+  width: 40px;
+  height: 3px;
+  background: #409eff;
+  border-radius: 3px;
+  margin: 8px auto 0;
+}
+.filter-item.data-v-03a9c718 {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 0 8px;
+}
+.filter-label.data-v-03a9c718 {
+  font-size: 15px;
+  color: #333;
+  width: 80px;
+  font-weight: 500;
+}
+/* 新增：状态筛选包裹层，优化布局 */
+.status-filter-wrapper.data-v-03a9c718 {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  gap: 24px;
+}
+.radio-group.data-v-03a9c718 {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+/* 优化单选框标签样式 */
+.custom-radio-label.data-v-03a9c718 {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+.radio-box.data-v-03a9c718 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* 放大单选框，优化选中色 */
+.custom-radio.data-v-03a9c718 {
+  transform: scale(1.2);
+  margin: 0;
+  padding: 0;
+}
+.custom-radio[checked].data-v-03a9c718 {
+  color: #409eff;
+}
+/* 单选框文字配色优化 */
+.radio-text.data-v-03a9c718 {
+  font-size: 15px;
+  color: #333;
+  font-weight: 400;
+}
+.online-text.data-v-03a9c718 {
+  color: #67c23a;
+}
+.offline-text.data-v-03a9c718 {
+  color: #f56c6c;
+}
+/* 单选框点击反馈 */
+.custom-radio-label:active .radio-box.data-v-03a9c718 {
+  background-color: #f0f9ff;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+.count-input.data-v-03a9c718 {
+  flex: 1;
+  height: 40px;
+  padding: 0 14px;
+  border: 1px solid #e9ecef;
+  border-radius: 10px;
+  font-size: 14px;
+  background: #f8f9fa;
+  transition: all 0.2s ease;
+}
+.count-input.data-v-03a9c718:focus {
+  border-color: #409eff;
+  background: #fff;
+  box-shadow: 0 0 0 2px rgba(64, 158, 255, 0.1);
+}
+.filter-btns.data-v-03a9c718 {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+.filter-reset.data-v-03a9c718, .filter-confirm.data-v-03a9c718 {
+  flex: 1;
+  height: 44px;
+  border: none;
+  border-radius: 22px;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+.filter-reset.data-v-03a9c718 {
+  background: #f5f7fa;
+  color: #666;
+}
+.filter-confirm.data-v-03a9c718 {
+  background: #409eff;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(64, 158, 255, 0.2);
+}
+.filter-reset.data-v-03a9c718:active, .filter-confirm.data-v-03a9c718:active {
+  transform: scale(0.98);
+}
+.filter-confirm.data-v-03a9c718:active {
+  background: #337ecc;
+}
+
+/* 统计栏（保留原有样式） */
+.simple-stats.data-v-03a9c718 {
+  display: flex;
+  justify-content: space-around;
+  padding: 12px 0;
+  margin: 0 16px 8px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+.stats-item.data-v-03a9c718 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.stats-label.data-v-03a9c718 {
+  font-size: 12px;
+  color: #999;
+  margin-bottom: 4px;
+}
+.stats-value.data-v-03a9c718 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+.stats-value.online.data-v-03a9c718 {
+  color: #67c23a;
+}
+.stats-value.offline.data-v-03a9c718 {
+  color: #f56c6c;
+}
+
+/* 加载/空数据（保留原有样式） */
+.simple-loading.data-v-03a9c718, .simple-empty.data-v-03a9c718 {
+  padding: 40px 0;
+  text-align: center;
+}
+.simple-empty.data-v-03a9c718 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.empty-text.data-v-03a9c718 {
+  font-size: 14px;
+  color: #999;
+  margin-top: 12px;
+}
+
+/* 列表容器（调整高度计算，适配加载更多） */
+.simple-list.data-v-03a9c718 {
+  height: calc(100vh - 120px);
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+/* 列表项（完全保留原有样式） */
+.list-item.data-v-03a9c718 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 14px 16px;
+  margin-bottom: 8px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  box-sizing: border-box;
+}
+.item-hover.data-v-03a9c718 {
+  background-color: #f5f7fa;
+  border-color: #dee2e6;
+}
+.item-seat.data-v-03a9c718 {
+  width: 50px;
+}
+.seat-text.data-v-03a9c718 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #409eff;
+}
+.item-mac.data-v-03a9c718 {
+  flex: 1;
+  margin: 0 12px 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.mac-text.data-v-03a9c718 {
+  font-size: 14px;
+  color: #333;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.mcu-model-text.data-v-03a9c718 {
+  font-size: 11px;
+  color: #999;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.item-status.data-v-03a9c718 {
+  min-width: 70px;
+  margin-left: 15px;
+}
+.status-tag.data-v-03a9c718 {
+  padding: 3px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+  text-align: center;
+}
+.status-online.data-v-03a9c718 {
+  background-color: #f0f9ff;
+  color: #67c23a;
+  border: 1px solid #e1f5e1;
+}
+.status-offline.data-v-03a9c718 {
+  background-color: #fef0f0;
+  color: #f56c6c;
+  border: 1px solid #fee2e2;
+}
+.item-last-status.data-v-03a9c718 {
+  width: 100%;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #f5f7fa;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.last-label.data-v-03a9c718 {
+  color: #999;
+}
+.last-value.data-v-03a9c718 {
+  color: #666;
+}
+.last-online.data-v-03a9c718 {
+  color: #67c23a;
+}
+.last-offline.data-v-03a9c718 {
+  color: #f56c6c;
+}
+.count-label.data-v-03a9c718 {
+  color: #999;
+  margin-left: 4px;
+}
+.count-value.data-v-03a9c718 {
+  font-weight: 500;
+}
+.count-value.online.data-v-03a9c718 {
+  color: #67c23a;
+}
+.count-value.offline.data-v-03a9c718 {
+  color: #f56c6c;
+}
+
+/* 加载更多提示样式（新增） */
+.load-more-tip.data-v-03a9c718, .load-more-end.data-v-03a9c718 {
+  padding: 12px 0;
+  text-align: center;
+  font-size: 12px;
+  color: #999;
+}
+.load-more-loading.data-v-03a9c718 {
+  padding: 8px 0;
+  text-align: center;
+}
+
+/* 小屏适配（保留原有样式，新增筛选按钮适配） */
+@media (max-width: 375px) {
+.simple-search-bar.data-v-03a9c718 {
+    flex-direction: column;
+}
+.search-input-wrapper.data-v-03a9c718 {
+    width: 100%;
+}
+.simple-filter-btn.data-v-03a9c718, .simple-trigger-btn.data-v-03a9c718 {
+    width: 48%;
+}
+.simple-list.data-v-03a9c718 {
+    height: calc(100vh - 140px);
+}
+.item-last-status.data-v-03a9c718 {
+    gap: 2px;
+    padding-left: 16px;
+}
+.count-label.data-v-03a9c718 {
+    margin-left: 2px;
+}
+.item-mac.data-v-03a9c718 {
+    margin: 0 8px 0 20px;
+}
+  /* 小屏适配单选框间距 */
+.status-filter-wrapper.data-v-03a9c718 {
+    gap: 16px;
+}
+}

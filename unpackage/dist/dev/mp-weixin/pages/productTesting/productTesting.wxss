@@ -1,0 +1,174 @@
+
+/* 页面容器 */
+.container.data-v-15045a0f {
+  padding-bottom: 100rpx;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+/* 搜索栏样式 */
+.search-bar.data-v-15045a0f {
+  display: flex;
+  align-items: center;
+  padding: 10rpx 20rpx;
+  background: #fff;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+.picker.data-v-15045a0f {
+  width: 180rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  padding: 0 10rpx;
+  border: 1rpx solid #eee;
+  border-radius: 8rpx;
+  text-align: center;
+  font-size: 28rpx;
+}
+.search-input.data-v-15045a0f {
+  flex: 1;
+  height: 70rpx;
+  margin: 0 10rpx;
+  padding: 0 15rpx;
+  border: 1rpx solid #eee;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+.search-btn.data-v-15045a0f {
+  width: 120rpx;
+  height: 70rpx;
+  line-height: 70rpx;
+  background: #007aff;
+  color: #fff;
+  border-radius: 8rpx;
+  font-size: 28rpx;
+}
+
+/* 全选栏样式 */
+.select-all-bar.data-v-15045a0f {
+  display: flex;
+  justify-content: space-between;
+  padding: 10rpx 20rpx;
+  background: #fff;
+  font-size: 28rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+}
+.selected-count.data-v-15045a0f {
+  color: #666;
+}
+
+/* 设备列表样式 */
+.device-list.data-v-15045a0f {
+  padding: 20rpx;
+}
+.device-item.data-v-15045a0f {
+  background: #fff;
+  border-radius: 8rpx;
+  margin-bottom: 15rpx;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.device-main.data-v-15045a0f {
+  display: flex;
+  align-items: center;
+  padding: 20rpx;
+}
+.device-checkbox.data-v-15045a0f {
+  margin-right: 20rpx;
+  transform: scale(1.2);
+  flex-shrink: 0;
+}
+.device-info.data-v-15045a0f {
+  flex: 1;
+}
+.item-row.data-v-15045a0f {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+  height: 40rpx;
+}
+.item-row.data-v-15045a0f:last-child {
+  margin-bottom: 0;
+}
+.label.data-v-15045a0f {
+  width: 120rpx;
+  color: #666;
+}
+.value.data-v-15045a0f {
+  flex: 1;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.online.data-v-15045a0f { color: #00c800;
+}
+.offline.data-v-15045a0f { color: #999;
+}
+.repair.data-v-15045a0f { color: #ff9500;
+}
+
+/* 展开箭头样式 */
+.expand-arrow.data-v-15045a0f {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 10rpx;
+  transition: transform 0.3s;
+}
+.expand-arrow.active.data-v-15045a0f {
+  transform: rotate(180deg);
+}
+
+/* 操作按钮区域 */
+.device-actions.data-v-15045a0f {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10rpx 20rpx 20rpx;
+  background: #f9f9f9;
+  border-top: 1rpx solid #eee;
+}
+.action-btn.data-v-15045a0f {
+  flex: 1;
+  height: 60rpx;
+  line-height: 60rpx;
+  margin: 0 5rpx;
+  padding: 0;
+  font-size: 26rpx;
+  border-radius: 6rpx;
+}
+.light-on.data-v-15045a0f { background: #00c800; color: #fff; border: none;
+}
+.light-off.data-v-15045a0f { background: #999; color: #fff; border: none;
+}
+.socket-on.data-v-15045a0f { background: #007aff; color: #fff; border: none;
+}
+.socket-off.data-v-15045a0f { background: #ff3b30; color: #fff; border: none;
+}
+.screen-btn.data-v-15045a0f { background: #9c27b0; color: #fff; border: none;
+}
+.kick-out-btn.data-v-15045a0f { background: #ff6700; color: #fff; border: none;
+}
+
+/* 状态提示样式 */
+.loading.data-v-15045a0f, .empty.data-v-15045a0f, .load-more.data-v-15045a0f, .no-more.data-v-15045a0f {
+  text-align: center;
+  padding: 30rpx 0;
+  color: #999;
+  font-size: 28rpx;
+}
+
+/* 批量按钮样式（固定底部） */
+.batch-btn.data-v-15045a0f {
+  position: fixed;
+  bottom: 20rpx;
+  left: 20rpx;
+  right: 20rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background: #007aff;
+  color: #fff;
+  border-radius: 10rpx;
+  font-size: 32rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0,0,0,0.1);
+}
