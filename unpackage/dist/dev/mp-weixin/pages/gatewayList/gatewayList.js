@@ -98,7 +98,7 @@ const _sfc_main = {
             const validList = list.filter((item) => item && item.id);
             this.gatewayList = this.gatewayList.concat(validList);
             this.total = total;
-            this.hasMore = this.gatewayList.length + validList.length < total;
+            this.hasMore = this.gatewayList.length < total;
           } else {
             common_vendor.index.showToast({ title: "接口返回异常", icon: "none" });
           }
@@ -106,7 +106,7 @@ const _sfc_main = {
         },
         fail: (err) => {
           this.loading = false;
-          common_vendor.index.__f__("error", "at pages/gatewayList/gatewayList.vue:157", "接口请求失败：", err);
+          common_vendor.index.__f__("error", "at pages/gatewayList/gatewayList.vue:202", "接口请求失败：", err);
           common_vendor.index.showToast({ title: "加载失败", icon: "none" });
           callback && callback();
         }
@@ -148,10 +148,11 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         b: common_vendor.t(item.deviceName || "-"),
         c: common_vendor.t(item.productKey || "-"),
         d: common_vendor.t($options.statusToText(item.status)),
-        e: common_vendor.n(item.status === "ONLINE" ? "online" : item.status === "OFFLINE" ? "offline" : "repair"),
+        e: common_vendor.n(item.status === "ONLINE" ? "status-online" : item.status === "OFFLINE" ? "status-offline" : "status-repair"),
         f: common_vendor.o(($event) => $options.handleGoToConfig(item), item.id),
         g: common_vendor.o(($event) => $options.handleGoToDetail(item), item.id),
-        h: item.id
+        h: item.id,
+        i: common_vendor.o(($event) => $options.handleGoToDetail(item), item.id)
       };
     }),
     m: $data.hasMore && !$data.loading

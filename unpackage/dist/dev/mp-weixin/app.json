@@ -3,13 +3,10 @@
     "pages/index/index",
     "pages/setting/setting",
     "pages/gatewayCreate/gatewayCreate",
-    "pages/deviceList/deviceList",
     "pages/gatewayList/gatewayList",
     "pages/productTesting/productTesting",
     "pages/gatewayDetail/gatewayDetail",
-    "pages/scan-web/scan-web",
-    "pages/server-monitor/server-monitor",
-    "pages/mcu-status-list/mcu-status-list"
+    "pages/scan-web/scan-web"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",

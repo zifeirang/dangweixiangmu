@@ -1,6 +1,5 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
 const _sfc_main = {
   data() {
     return {
@@ -98,7 +97,7 @@ const _sfc_main = {
           this.addLoading = false;
         },
         fail: (err) => {
-          common_vendor.index.__f__("error", "at pages/scan-web/scan-web.vue:173", "新增设备扫码失败：", err);
+          common_vendor.index.__f__("error", "at pages/scan-web/scan-web.vue:204", "新增设备扫码失败：", err);
           this.addLoading = false;
           if (err.errMsg.includes("permission") || err.errMsg.includes("getSetting")) {
             common_vendor.index.showModal({
@@ -145,7 +144,7 @@ const _sfc_main = {
           common_vendor.index.showToast({ title: "扫码成功", icon: "success", duration: 1e3 });
         },
         fail: (err) => {
-          common_vendor.index.__f__("error", "at pages/scan-web/scan-web.vue:224", "扫码失败：", err);
+          common_vendor.index.__f__("error", "at pages/scan-web/scan-web.vue:255", "扫码失败：", err);
           if (err.errMsg.includes("permission") || err.errMsg.includes("getSetting")) {
             common_vendor.index.showModal({
               title: "需要摄像头权限",
@@ -227,7 +226,7 @@ const _sfc_main = {
           }
         },
         fail: (err) => {
-          common_vendor.index.__f__("error", "at pages/scan-web/scan-web.vue:312", "扫网失败：", err);
+          common_vendor.index.__f__("error", "at pages/scan-web/scan-web.vue:343", "扫网失败：", err);
           common_vendor.index.showToast({
             title: "网络异常！请重试",
             icon: "none",
@@ -262,18 +261,17 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         f: common_vendor.o(($event) => $options.delWhiteDevice(index), index),
         g: index
       };
-    }),
-    j: common_assets._imports_0$1
+    })
   } : {
-    k: common_vendor.o((...args) => $options.addWhiteDeviceWithScan && $options.addWhiteDeviceWithScan(...args)),
-    l: $data.addLoading
+    j: common_vendor.o((...args) => $options.addWhiteDeviceWithScan && $options.addWhiteDeviceWithScan(...args)),
+    k: $data.addLoading
   }, {
-    m: !$data.loading
+    l: !$data.loading
   }, !$data.loading ? {} : {}, {
-    n: $data.loading
+    m: $data.loading
   }, $data.loading ? {} : {}, {
-    o: common_vendor.o((...args) => $options.handleScanWeb && $options.handleScanWeb(...args)),
-    p: $data.loading
+    n: common_vendor.o((...args) => $options.handleScanWeb && $options.handleScanWeb(...args)),
+    o: $data.loading
   });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-759cfe4d"]]);

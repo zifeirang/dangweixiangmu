@@ -1,75 +1,106 @@
 <template>
-  <view class="scan-web-container">
-    <!-- 扫网表单 -->
-    <view class="scan-form">
-      <!-- 网关基础信息 -->
-      <view class="form-item">
-        <text class="label">网关MAC：</text>
-        <text class="value">{{ formData.deviceName }}</text>
-      </view>
-      <view class="form-item">
-        <text class="label">网关名称：</text>
-        <text class="value">{{ formData.name }}</text>
+  <view class="container">
+    <view class="safe-area">
+      <!-- 顶部标题区 -->
+      <view class="header-section">
+        <text class="page-title">设备配网</text>
+        <text class="page-subtitle">DEVICE PROVISIONING</text>
       </view>
 
-      <!-- 设备名称模板配置 -->
-      <view class="form-item">
-        <text class="label required">设备名称模板：</text>
-        <input 
-          class="input template-input" 
-          v-model="deviceNameTemplate" 
-          placeholder="示例：108 1B001、1B001、1|001、1,001"
-          @blur="parseTemplate"
-        />
-      </view>
-
-      <!-- 白名单设备列表：仅当列表有数据时显示 -->
-      <view class="form-item" v-if="formData.whiteList.length > 0">
-        <text class="label required">白名单设备：</text>
-        <view class="white-list">
-          <!-- 新增设备按钮 -->
-          <button class="add-white-btn" @click="addWhiteDeviceWithScan" :loading="addLoading">+ 新增设备</button>
-
-          <!-- 设备列表 -->
-          <view class="white-device-item" v-for="(item, index) in formData.whiteList" :key="index">
-            <view class="device-form-item">
-              <text class="sub-label">MAC：</text>
-              <view class="input-group">
-                <input 
-                  class="input small" 
-                  v-model="item.deviceName" 
-                  placeholder="请输入设备MAC"
-                />
-                <button class="scan-btn" @click="handleScan(index)" :loading="false">
-                  <image src="/static/images/scan-icon.png" class="scan-img" mode="widthFix" />
-                </button>
-              </view>
-            </view>
-            <view class="device-form-item">
-              <text class="sub-label">设备名称：</text>
-              <input 
-                class="input small" 
-                v-model="item.name" 
-                placeholder="自动生成/手动修改"
-                readonly
-              />
-            </view>
-            <button class="del-btn" @click="delWhiteDevice(index)">删除</button>
+      <!-- 扫网表单卡片 -->
+      <view class="form-wrapper">
+        <view class="form-group">
+          <view class="group-header">
+            <text class="group-title">网关信息</text>
+          </view>
+          
+          <!-- 网关基础信息 -->
+          <view class="form-item">
+            <text class="label">网关MAC</text>
+            <text class="value">{{ formData.deviceName }}</text>
+          </view>
+          <view class="form-item">
+            <text class="label">网关名称</text>
+            <text class="value">{{ formData.name }}</text>
           </view>
         </view>
-      </view>
 
-      <!-- 新增设备按钮（列表为空时显示） -->
-      <view class="form-item" v-else>
-        <text class="label required">白名单设备：</text>
-        <button class="add-white-btn" @click="addWhiteDeviceWithScan" :loading="addLoading">+ 新增设备</button>
-      </view>
+        <view class="form-group">
+          <view class="group-header">
+            <text class="group-title">配置模板</text>
+          </view>
+          
+          <!-- 设备名称模板配置（修复显示异常） -->
+          <view class="form-item">
+            <text class="label">设备名称模板</text>
+            <input 
+              class="input-field" 
+              v-model="deviceNameTemplate" 
+              placeholder="示例：108 1B001、1B001、1|001、1,001"
+              @blur="parseTemplate"
+              placeholder-class="input-placeholder"
+            />
+          </view>
+        </view>
 
-      <!-- 提交按钮：支持重复点击，加载中禁用 -->
-      <button class="submit-btn" @click="handleScanWeb" :disabled="loading">
-        <text v-if="!loading">开始扫网</text>
-        <text v-if="loading">扫网中...</text>
-      </button>
+        <view class="form-group">
+          <view class="group-header">
+            <text class="group-title">白名单设备</text>
+          </view>
+          
+          <!-- 白名单设备列表 -->
+          <view class="form-item" v-if="formData.whiteList.length > 0">
+            <!-- 新增设备按钮 -->
+            <view class="add-btn-row">
+              <button class="add-white-btn" @click="addWhiteDeviceWithScan" :loading="addLoading">+ 新增设备</button>
+            </view>
+
+            <!-- 设备列表 -->
+            <view class="white-device-item" v-for="(item, index) in formData.whiteList" :key="index">
+              <view class="device-form-row">
+                <text class="sub-label">MAC</text>
+                <view class="input-group">
+                  <input 
+                    class="input-field small-input" 
+                    v-model="item.deviceName" 
+                    placeholder="请输入设备MAC"
+                    placeholder-class="input-placeholder"
+                  />
+                  <view class="scan-icon-btn" @click="handleScan(index)">
+                    <text class="scan-icon-text">📷</text>
+                  </view>
+                </view>
+              </view>
+              <view class="device-form-row">
+                <text class="sub-label">设备名称</text>
+                <input 
+                  class="input-field small-input" 
+                  v-model="item.name" 
+                  placeholder="自动生成/手动修改"
+                  readonly
+                  placeholder-class="input-placeholder"
+                />
+              </view>
+              <view class="del-btn-row">
+                <button class="del-btn" @click="delWhiteDevice(index)">删除</button>
+              </view>
+            </view>
+          </view>
+
+          <!-- 新增设备按钮（列表为空时显示） -->
+          <view class="form-item" v-else>
+            <button class="add-white-btn" @click="addWhiteDeviceWithScan" :loading="addLoading">+ 新增设备</button>
+          </view>
+        </view>
+
+        <!-- 提交按钮 -->
+        <view class="btn-section">
+          <button class="submit-btn" @click="handleScanWeb" :disabled="loading">
+            <text v-if="!loading">开始扫网</text>
+            <text v-if="loading">扫网中...</text>
+          </button>
+        </view>
+      </view>
     </view>
   </view>
 </template>
@@ -328,146 +359,228 @@ export default {
 </script>
 
 <style scoped>
-.scan-web-container {
-  padding: 20rpx;
-  background-color: #f5f7fa;
+/* ---------------- 全局容器（统一风格） ---------------- */
+.container {
+  width: 100vw;
   min-height: 100vh;
-}
-.page-title {
-  font-size: 32rpx;
-  font-weight: 600;
-  color: #333;
-  margin-bottom: 30rpx;
-  text-align: center;
-}
-.scan-form {
-  background-color: #fff;
-  padding: 30rpx;
-  border-radius: 12rpx;
-  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.05);
-}
-.form-item {
-  margin-bottom: 25rpx;
+  background-color: #F7F8FA;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
 }
-.label {
-  font-size: 28rpx;
-  color: #333;
-  margin-bottom: 10rpx;
-}
-.required::after {
-  content: '*';
-  color: #ff3b30;
-  margin-left: 5rpx;
-}
-.value {
-  font-size: 26rpx;
-  color: #666;
-  padding: 10rpx;
-  background-color: #fcfdff;
-  border-radius: 6rpx;
-}
-.template-input {
-  font-size: 28rpx;
-  padding: 12rpx 15rpx;
-  border: 1rpx solid #eee;
-  border-radius: 8rpx;
-  height: 60rpx;
+.safe-area {
+  width: 100%;
+  max-width: 600px;
+  padding: 80rpx 40rpx 40rpx;
   box-sizing: border-box;
 }
-.white-list {
+
+/* ---------------- 顶部标题（统一风格） ---------------- */
+.header-section {
+  margin-bottom: 40rpx;
+}
+.page-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 300;
+  color: #1D1D1F;
+  letter-spacing: -1rpx;
+  margin-bottom: 8rpx;
+}
+.page-subtitle {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #86868B;
+  text-transform: uppercase;
+  letter-spacing: 2rpx;
+}
+
+/* ---------------- 表单卡片（统一风格） ---------------- */
+.form-wrapper {
   width: 100%;
 }
-.add-white-btn {
-  background-color: #007aff;
-  color: #fff;
-  border-radius: 8rpx;
-  height: 60rpx;
-  line-height: 60rpx;
-  font-size: 24rpx;
-  margin-bottom: 20rpx;
-  border: none;
+.form-group {
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 0;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+  overflow: hidden;
 }
-.add-white-btn:disabled {
-  background-color: #999;
+.group-header {
+  width: 100%;
+  padding: 30rpx 36rpx 20rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #F5F5F7;
 }
+.group-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #1D1D1F;
+}
+
+/* ---------------- 表单项（统一风格） ---------------- */
+.form-item {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 24rpx 36rpx;
+  box-sizing: border-box;
+  border-bottom: 1rpx solid #F5F5F7;
+}
+.form-item:last-child {
+  border-bottom: none;
+}
+.label {
+  font-size: 26rpx;
+  font-weight: 400;
+  color: #86868B;
+  margin-bottom: 16rpx;
+}
+.value {
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #1D1D1F;
+  line-height: 1.5;
+}
+
+/* ---------------- 输入框（核心修复：解决文字显示异常） ---------------- */
+.input-field {
+  width: 100%;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 28rpx;
+  font-weight: 400;
+  color: #1D1D1F;
+  background-color: #F7F8FA;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  box-sizing: border-box;
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  overflow: visible;
+}
+.input-placeholder {
+  color: #C7C7CC;
+  font-weight: 400;
+  font-size: 28rpx;
+  line-height: 80rpx;
+  font-family: "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.small-input {
+  height: 64rpx;
+  line-height: 64rpx;
+  font-size: 26rpx;
+}
+.small-input .input-placeholder {
+  font-size: 26rpx;
+  line-height: 64rpx;
+}
+
+/* ---------------- 白名单设备项 ---------------- */
 .white-device-item {
-  background-color: #fcfdff;
-  padding: 20rpx;
-  border-radius: 8rpx;
-  margin-bottom: 15rpx;
-  border: 1rpx solid #e5e9f2;
+  width: 100%;
+  background-color: #F7F8FA;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
 }
-.device-form-item {
+.white-device-item:last-child {
+  margin-bottom: 0;
+}
+.device-form-row {
   display: flex;
   align-items: center;
-  margin-bottom: 15rpx;
-  gap: 10rpx;
+  margin-bottom: 16rpx;
+  gap: 16rpx;
+}
+.device-form-row:last-child {
+  margin-bottom: 0;
 }
 .sub-label {
   font-size: 24rpx;
-  color: #666;
-  width: 120rpx;
+  color: #86868B;
+  width: 100rpx;
   flex-shrink: 0;
 }
 .input-group {
   flex: 1;
   display: flex;
   align-items: center;
+  gap: 0;
 }
-.input.small {
-  flex: 1;
-  height: 60rpx;
-  line-height: 60rpx;
-  padding: 0 15rpx;
-  border: 1rpx solid #e5e9f2;
-  border-right: none;
-  border-radius: 8rpx 0 0 8rpx;
-  font-size: 26rpx;
-}
-.scan-btn {
-  width: 70rpx;
-  height: 60rpx;
-  background: #ffffff;
-  border: 1rpx solid #e5e9f2;
-  border-left: none;
-  border-radius: 0 8rpx 8rpx 0;
+.scan-icon-btn {
+  width: 72rpx;
+  height: 64rpx;
+  background: #F0F7FF;
+  border-radius: 0 12rpx 12rpx 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
-  margin: 0;
+  margin-left: -12rpx;
 }
-.scan-img {
-  width: 32rpx;
-  height: 32rpx;
-  vertical-align: middle;
+.scan-icon-text {
+  font-size: 28rpx;
 }
-.del-btn {
-  background-color: #ff3b30;
-  color: #fff;
-  border-radius: 6rpx;
-  height: 50rpx;
-  line-height: 50rpx;
-  font-size: 22rpx;
-  border: none;
+
+/* ---------------- 按钮（统一风格） ---------------- */
+.add-btn-row {
   width: 100%;
-  margin-top: 10rpx;
+  margin-bottom: 20rpx;
 }
-.submit-btn {
-  background-color: #00c800;
-  color: #fff;
-  border-radius: 8rpx;
+.add-white-btn {
+  width: 100%;
   height: 80rpx;
   line-height: 80rpx;
+  background-color: #007AFF;
+  color: #FFFFFF;
+  border-radius: 12rpx;
   font-size: 28rpx;
+  font-weight: 500;
   border: none;
+  box-shadow: 0 4rpx 12rpx rgba(0, 122, 255, 0.25);
+}
+.del-btn-row {
   width: 100%;
   margin-top: 20rpx;
 }
+.del-btn {
+  width: 100%;
+  height: 64rpx;
+  line-height: 64rpx;
+  background-color: #FFEAEA;
+  color: #FF3B30;
+  border-radius: 12rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+  border: none;
+}
+.btn-section {
+  width: 100%;
+  margin-top: 40rpx;
+  padding-bottom: 40rpx;
+}
+.submit-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  background-color: #007AFF;
+  color: #FFFFFF;
+  border-radius: 24rpx;
+  font-size: 32rpx;
+  font-weight: 500;
+  border: none;
+  box-shadow: 0 8rpx 24rpx rgba(0, 122, 255, 0.25);
+  transition: all 0.2s ease;
+}
+.submit-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 12rpx rgba(0, 122, 255, 0.2);
+  background-color: #0066CC;
+}
 .submit-btn:disabled {
-  background-color: #999;
-  color: #fff;
+  background-color: #C7C7CC;
+  box-shadow: none;
 }
 </style>

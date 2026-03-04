@@ -19,12 +19,6 @@
       }
     },
     {
-      "path": "pages/deviceList/deviceList",
-      "style": {
-        "navigationBarTitleText": "设备列表"
-      }
-    },
-    {
       "path": "pages/gatewayList/gatewayList",
       "style": {
         "navigationBarTitleText": "网关列表"
@@ -33,7 +27,7 @@
     {
       "path": "pages/productTesting/productTesting",
       "style": {
-        "navigationBarTitleText": "产品测试"
+        "navigationBarTitleText": "设备列表"
       }
 	},
 	{
@@ -46,19 +40,6 @@
 		"path": "pages/scan-web/scan-web",
 		"style": {
 			"navigationBarTitleText": "设备配网"
-		}
-	},
-	{
-		"path": "pages/server-monitor/server-monitor",
-		"style": {
-			"navigationBarTitleText": "运维页面"
-		}
-	},
-	{
-		"path": "pages/mcu-status-list/mcu-status-list",
-		"style": {
-			"navigationBarTitleText": "设备状态",
-			"enablePullDownRefresh": false
 		}
 	}
   ],

@@ -3,101 +3,180 @@ const common_vendor = require("../../common/vendor.js");
 const _sfc_main = {
   data() {
     return {
-      // 原有：通用接口配置
+      // 密码验证相关
+      showPasswordModal: false,
+      inputPassword: "",
+      isAuthenticated: false,
+      // 默认密码（首次使用）
+      defaultPassword: "123456",
+      // 通用接口配置
       baseUrl: "",
       token: "",
-      // 原有：网关详情接口配置
+      // 网关详情接口配置
       gatewayDetailBaseUrl: "",
       gatewayDetailToken: "",
-      // 新增：MCU服务器监控配置
-      mcuBaseUrl: "",
-      mcuToken: "",
-      // 原有：扫网参数
+      // 扫网参数
       scanDuration: 60,
-      // 扫网时长默认60秒
-      whiteProductKey: "",
-      // 白名单产品Key
-      // 新增：网关产品Key（新增网关页面使用）
-      gatewayProductKey: ""
+      whiteProductKey: "RE03010TCV2",
+      gatewayProductKey: "R101Gateway",
+      // 修改密码相关
+      newPassword: "",
+      confirmNewPassword: ""
     };
   },
   onLoad() {
-    this.baseUrl = common_vendor.index.getStorageSync("config_baseUrl") || "";
-    this.token = common_vendor.index.getStorageSync("config_token") || "";
-    this.gatewayDetailBaseUrl = common_vendor.index.getStorageSync("config_gatewayDetailBaseUrl") || "";
-    this.gatewayDetailToken = common_vendor.index.getStorageSync("config_gatewayDetailToken") || "";
-    this.mcuBaseUrl = common_vendor.index.getStorageSync("config_mcuBaseUrl") || "";
-    this.mcuToken = common_vendor.index.getStorageSync("config_mcuToken") || "";
-    this.scanDuration = common_vendor.index.getStorageSync("config_scanDuration") || 60;
-    this.whiteProductKey = common_vendor.index.getStorageSync("config_whiteProductKey") || "";
-    this.gatewayProductKey = common_vendor.index.getStorageSync("config_gatewayProductKey") || "";
+    this.checkAuthentication();
+  },
+  onShow() {
+    if (!this.isAuthenticated) {
+      this.checkAuthentication();
+    }
   },
   methods: {
-    // 保存所有配置
+    // 检查是否已认证
+    checkAuthentication() {
+      const authenticated = common_vendor.index.getStorageSync("setting_authenticated");
+      const authTimestamp = common_vendor.index.getStorageSync("setting_auth_timestamp");
+      const now = Date.now();
+      const expireTime = 1 * 60 * 60 * 1e3;
+      if (authenticated && authTimestamp && now - authTimestamp < expireTime) {
+        this.isAuthenticated = true;
+        this.loadConfig();
+      } else {
+        this.showPasswordModal = true;
+      }
+    },
+    // 验证密码
+    verifyPassword() {
+      if (!this.inputPassword) {
+        common_vendor.index.showToast({ title: "请输入密码", icon: "none" });
+        return;
+      }
+      const savedPassword = common_vendor.index.getStorageSync("admin_password") || this.defaultPassword;
+      if (this.inputPassword === savedPassword) {
+        this.isAuthenticated = true;
+        this.showPasswordModal = false;
+        this.inputPassword = "";
+        common_vendor.index.setStorageSync("setting_authenticated", true);
+        common_vendor.index.setStorageSync("setting_auth_timestamp", Date.now());
+        this.loadConfig();
+        common_vendor.index.showToast({ title: "验证成功", icon: "success" });
+      } else {
+        common_vendor.index.showToast({ title: "密码错误", icon: "none" });
+      }
+    },
+    // 取消验证
+    handleCancel() {
+      this.showPasswordModal = false;
+      this.inputPassword = "";
+      common_vendor.index.switchTab({
+        url: "/pages/index/index"
+      });
+    },
+    // 加载配置
+    loadConfig() {
+      this.baseUrl = common_vendor.index.getStorageSync("config_baseUrl") || "";
+      this.token = common_vendor.index.getStorageSync("config_token") || "";
+      this.gatewayDetailBaseUrl = common_vendor.index.getStorageSync("config_gatewayDetailBaseUrl") || "";
+      this.gatewayDetailToken = common_vendor.index.getStorageSync("config_gatewayDetailToken") || "";
+      this.scanDuration = common_vendor.index.getStorageSync("config_scanDuration") || 60;
+      this.whiteProductKey = common_vendor.index.getStorageSync("config_whiteProductKey") || "RE03010TCV2";
+      this.gatewayProductKey = common_vendor.index.getStorageSync("config_gatewayProductKey") || "R101Gateway";
+    },
+    // 保存所有配置（保留你原本的逻辑）
     saveConfig() {
-      const hasCommonConfig = this.baseUrl && this.token;
-      const hasGatewayDetailConfig = this.gatewayDetailBaseUrl && this.gatewayDetailToken;
-      const hasMcuConfig = this.mcuBaseUrl && this.mcuToken;
-      if (!hasCommonConfig && !hasGatewayDetailConfig && !hasMcuConfig) {
-        return common_vendor.index.showToast({ title: "请至少填写一组接口配置", icon: "none" });
+      if (!this.baseUrl || !this.token) {
+        return common_vendor.index.showToast({ title: "请填写通用地址和Token", icon: "none" });
       }
       if (this.scanDuration < 1) {
         return common_vendor.index.showToast({ title: "扫网时长需大于0秒", icon: "none" });
       }
-      if (this.baseUrl && this.token) {
-        common_vendor.index.setStorageSync("config_baseUrl", this.baseUrl);
-        common_vendor.index.setStorageSync("config_token", this.token);
-      }
-      if (this.gatewayDetailBaseUrl && this.gatewayDetailToken) {
-        common_vendor.index.setStorageSync("config_gatewayDetailBaseUrl", this.gatewayDetailBaseUrl);
-        common_vendor.index.setStorageSync("config_gatewayDetailToken", this.gatewayDetailToken);
-      }
-      if (this.mcuBaseUrl && this.mcuToken) {
-        common_vendor.index.setStorageSync("config_mcuBaseUrl", this.mcuBaseUrl);
-        common_vendor.index.setStorageSync("config_mcuToken", this.mcuToken);
-      } else {
-        common_vendor.index.removeStorageSync("config_mcuBaseUrl");
-        common_vendor.index.removeStorageSync("config_mcuToken");
-      }
+      common_vendor.index.setStorageSync("config_baseUrl", this.baseUrl);
+      common_vendor.index.setStorageSync("config_token", this.token);
+      common_vendor.index.setStorageSync("config_gatewayDetailBaseUrl", this.gatewayDetailBaseUrl);
+      common_vendor.index.setStorageSync("config_gatewayDetailToken", this.gatewayDetailToken);
       common_vendor.index.setStorageSync("config_scanDuration", this.scanDuration);
-      if (this.whiteProductKey) {
-        common_vendor.index.setStorageSync("config_whiteProductKey", this.whiteProductKey);
-      } else {
-        common_vendor.index.removeStorageSync("config_whiteProductKey");
+      common_vendor.index.setStorageSync("config_whiteProductKey", this.whiteProductKey);
+      common_vendor.index.setStorageSync("config_gatewayProductKey", this.gatewayProductKey);
+      common_vendor.index.showToast({ title: "保存成功", icon: "success" });
+      setTimeout(() => {
+        common_vendor.index.navigateBack();
+      }, 1e3);
+    },
+    // 修改密码
+    changePassword() {
+      if (!this.newPassword) {
+        common_vendor.index.showToast({ title: "请输入新密码", icon: "none" });
+        return;
       }
-      if (this.gatewayProductKey) {
-        common_vendor.index.setStorageSync("config_gatewayProductKey", this.gatewayProductKey);
-      } else {
-        common_vendor.index.removeStorageSync("config_gatewayProductKey");
+      if (this.newPassword !== this.confirmNewPassword) {
+        common_vendor.index.showToast({ title: "两次输入的密码不一致", icon: "none" });
+        return;
       }
-      common_vendor.index.showToast({ title: "所有配置保存成功", icon: "success" });
+      if (this.newPassword.length < 6) {
+        common_vendor.index.showToast({ title: "密码长度至少6位", icon: "none" });
+        return;
+      }
+      common_vendor.index.showModal({
+        title: "确认修改",
+        content: "确定要修改密码吗？",
+        success: (res) => {
+          if (res.confirm) {
+            common_vendor.index.setStorageSync("admin_password", this.newPassword);
+            common_vendor.index.removeStorageSync("setting_authenticated");
+            common_vendor.index.removeStorageSync("setting_auth_timestamp");
+            this.newPassword = "";
+            this.confirmNewPassword = "";
+            this.isAuthenticated = false;
+            common_vendor.index.showToast({ title: "密码修改成功，请重新登录", icon: "success" });
+            setTimeout(() => {
+              this.showPasswordModal = true;
+            }, 1500);
+          }
+        }
+      });
     }
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {
-    a: $data.baseUrl,
-    b: common_vendor.o(($event) => $data.baseUrl = $event.detail.value),
-    c: $data.token,
-    d: common_vendor.o(($event) => $data.token = $event.detail.value),
-    e: $data.gatewayDetailBaseUrl,
-    f: common_vendor.o(($event) => $data.gatewayDetailBaseUrl = $event.detail.value),
-    g: $data.gatewayDetailToken,
-    h: common_vendor.o(($event) => $data.gatewayDetailToken = $event.detail.value),
-    i: $data.mcuBaseUrl,
-    j: common_vendor.o(($event) => $data.mcuBaseUrl = $event.detail.value),
-    k: $data.mcuToken,
-    l: common_vendor.o(($event) => $data.mcuToken = $event.detail.value),
-    m: $data.gatewayProductKey,
-    n: common_vendor.o(($event) => $data.gatewayProductKey = $event.detail.value),
-    o: $data.whiteProductKey,
-    p: common_vendor.o(($event) => $data.whiteProductKey = $event.detail.value),
-    q: $data.scanDuration,
-    r: common_vendor.o(common_vendor.m(($event) => $data.scanDuration = $event.detail.value, {
+  return common_vendor.e({
+    a: $data.showPasswordModal
+  }, $data.showPasswordModal ? {
+    b: common_vendor.o((...args) => $options.verifyPassword && $options.verifyPassword(...args)),
+    c: $data.inputPassword,
+    d: common_vendor.o(($event) => $data.inputPassword = $event.detail.value),
+    e: common_vendor.o((...args) => $options.handleCancel && $options.handleCancel(...args)),
+    f: common_vendor.o((...args) => $options.verifyPassword && $options.verifyPassword(...args))
+  } : {}, {
+    g: $data.showPasswordModal
+  }, $data.showPasswordModal ? {
+    h: common_vendor.o((...args) => $options.handleCancel && $options.handleCancel(...args))
+  } : {}, {
+    i: $data.isAuthenticated
+  }, $data.isAuthenticated ? {
+    j: $data.baseUrl,
+    k: common_vendor.o(($event) => $data.baseUrl = $event.detail.value),
+    l: $data.token,
+    m: common_vendor.o(($event) => $data.token = $event.detail.value),
+    n: $data.gatewayDetailBaseUrl,
+    o: common_vendor.o(($event) => $data.gatewayDetailBaseUrl = $event.detail.value),
+    p: $data.gatewayDetailToken,
+    q: common_vendor.o(($event) => $data.gatewayDetailToken = $event.detail.value),
+    r: $data.gatewayProductKey,
+    s: common_vendor.o(($event) => $data.gatewayProductKey = $event.detail.value),
+    t: $data.whiteProductKey,
+    v: common_vendor.o(($event) => $data.whiteProductKey = $event.detail.value),
+    w: $data.scanDuration,
+    x: common_vendor.o(common_vendor.m(($event) => $data.scanDuration = $event.detail.value, {
       number: true
     })),
-    s: common_vendor.o((...args) => $options.saveConfig && $options.saveConfig(...args))
-  };
+    y: $data.newPassword,
+    z: common_vendor.o(($event) => $data.newPassword = $event.detail.value),
+    A: $data.confirmNewPassword,
+    B: common_vendor.o(($event) => $data.confirmNewPassword = $event.detail.value),
+    C: common_vendor.o((...args) => $options.changePassword && $options.changePassword(...args)),
+    D: common_vendor.o((...args) => $options.saveConfig && $options.saveConfig(...args))
+  } : {});
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-018cdf56"]]);
 wx.createPage(MiniProgramPage);

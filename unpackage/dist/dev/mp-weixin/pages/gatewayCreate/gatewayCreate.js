@@ -1,6 +1,5 @@
 "use strict";
 const common_vendor = require("../../common/vendor.js");
-const common_assets = require("../../common/assets.js");
 const _sfc_main = {
   data() {
     return {
@@ -51,7 +50,7 @@ const _sfc_main = {
           common_vendor.index.showToast({ title: "扫码成功", icon: "success", duration: 1e3 });
         },
         fail: (err) => {
-          common_vendor.index.__f__("error", "at pages/gatewayCreate/gatewayCreate.vue:98", "扫码失败：", err);
+          common_vendor.index.__f__("error", "at pages/gatewayCreate/gatewayCreate.vue:122", "扫码失败：", err);
           if (err.errMsg.includes("permission") || err.errMsg.includes("getSetting")) {
             common_vendor.index.showModal({
               title: "需要摄像头权限",
@@ -118,17 +117,20 @@ const _sfc_main = {
   }
 };
 function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return {
+  return common_vendor.e({
     a: common_vendor.o([($event) => $data.name = $event.detail.value, (...args) => $options.onNameInput && $options.onNameInput(...args)]),
     b: $data.name,
     c: common_vendor.o([($event) => $data.deviceName = $event.detail.value, (...args) => $options.onDeviceNameInput && $options.onDeviceNameInput(...args)]),
     d: $data.deviceName,
-    e: common_assets._imports_0$1,
-    f: common_vendor.o((...args) => $options.handleScan && $options.handleScan(...args)),
-    g: common_vendor.o((...args) => $options.handleSave && $options.handleSave(...args)),
-    h: $data.loading,
-    i: $data.loading
-  };
+    e: common_vendor.o((...args) => $options.handleScan && $options.handleScan(...args)),
+    f: !$data.loading
+  }, !$data.loading ? {} : {}, {
+    g: $data.loading
+  }, $data.loading ? {} : {}, {
+    h: common_vendor.o((...args) => $options.handleSave && $options.handleSave(...args)),
+    i: $data.loading,
+    j: $data.loading
+  });
 }
 const MiniProgramPage = /* @__PURE__ */ common_vendor._export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-36c94b3b"]]);
 wx.createPage(MiniProgramPage);

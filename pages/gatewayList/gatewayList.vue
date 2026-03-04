@@ -1,55 +1,100 @@
 <template>
   <view class="container">
-    <!-- 搜索栏 -->
-    <view class="search-bar">
-      <picker 
-        mode="selector" 
-        :range="searchTypes" 
-        range-key="name" 
-        @change="onSearchTypeChange" 
-        :value="searchTypeIndex"
-      >
-        <view class="picker">{{searchTypes[searchTypeIndex].name}}</view>
-      </picker>
-      <input 
-        class="search-input" 
-        :placeholder="searchTypes[searchTypeIndex].placeholder" 
-        v-model="searchValue" 
-        @input="onSearchInput"
-      />
-      <button class="search-btn" @click="onSearch">搜索</button>
-      <button class="add-btn" @click="handleAddGateway">新增</button>
-    </view>
-
-    <!-- 网关列表 -->
-    <view class="gateway-list">
-      <view class="loading" v-if="loading">加载中...</view>
-      <view class="empty" v-if="!loading && gatewayList.length === 0">暂无网关数据</view>
+    <view class="safe-area">
       
-      <!-- 网关项：按钮垂直排列 -->
-      <view class="gateway-item" v-for="item in gatewayList" :key="item.id">
-        <view class="gateway-info">
-          <view class="item-row"><text class="label">网关名称：</text><text class="value">{{item.name || '-'}}</text></view>
-          <view class="item-row"><text class="label">设备MAC：</text><text class="value">{{item.deviceName || '-'}}</text></view>
-          <view class="item-row"><text class="label">产品Key：</text><text class="value">{{item.productKey || '-'}}</text></view>
-          <view class="item-row">
-            <text class="label">状态：</text>
-            <text class="value" :class="item.status === 'ONLINE' ? 'online' : (item.status === 'OFFLINE' ? 'offline' : 'repair')">
-              {{statusToText(item.status)}}
-            </text>
-          </view>
+      <!-- 固定顶部区域 -->
+      <view class="fixed-header">
+        <!-- 顶部标题区 -->
+        <view class="header-section">
+          <text class="page-title">网关列表</text>
+          <text class="page-subtitle">Gateway List</text>
         </view>
-        <!-- 操作按钮组：垂直排列 + 均分触摸区域 -->
-        <view class="action-group">
-          <text class="config-btn" @click="handleGoToConfig(item)">配网</text>
-          <!-- 中间空格（间距） -->
-          <view class="space"></view>
-          <text class="detail-btn" @click="handleGoToDetail(item)">详情</text>
+
+        <!-- 搜索栏（卡片式） -->
+        <view class="search-card">
+          <view class="search-row">
+            <picker 
+              mode="selector" 
+              :range="searchTypes" 
+              range-key="name" 
+              @change="onSearchTypeChange" 
+              :value="searchTypeIndex"
+              class="search-picker"
+            >
+              <view class="picker-text">{{searchTypes[searchTypeIndex].name}}</view>
+              <text class="picker-arrow">›</text>
+            </picker>
+            
+            <input 
+              class="search-input" 
+              :placeholder="searchTypes[searchTypeIndex].placeholder" 
+              v-model="searchValue" 
+              @input="onSearchInput"
+              placeholder-class="input-placeholder"
+            />
+            
+            <view class="search-btn" @click="onSearch">
+              <text class="search-btn-text">搜索</text>
+            </view>
+            
+            <view class="add-btn" @click="handleAddGateway">
+              <text class="add-btn-text">新增</text>
+            </view>
+          </view>
         </view>
       </view>
 
-      <view class="load-more" v-if="hasMore && !loading">上拉加载更多</view>
-      <view class="no-more" v-if="!hasMore && gatewayList.length > 0">已加载全部</view>
+      <!-- 网关列表（增加顶部内边距，避免被固定头部遮挡） -->
+      <view class="list-wrapper">
+        <view class="loading" v-if="loading">加载中...</view>
+        <view class="empty" v-if="!loading && gatewayList.length === 0">暂无网关数据</view>
+        
+        <!-- 网关项：大卡片设计 -->
+        <view 
+          class="gateway-card" 
+          v-for="item in gatewayList" 
+          :key="item.id"
+          @click="handleGoToDetail(item)"
+        >
+          <!-- 左侧信息区 -->
+          <view class="card-left">
+            <view class="info-row">
+              <text class="info-label">网关名称</text>
+              <text class="info-value">{{item.name || '-'}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">设备 MAC</text>
+              <text class="info-value mono">{{item.deviceName || '-'}}</text>
+            </view>
+            <view class="info-row">
+              <text class="info-label">产品 Key</text>
+              <text class="info-value mono">{{item.productKey || '-'}}</text>
+            </view>
+          </view>
+          
+          <!-- 右侧状态与操作区 -->
+          <view class="card-right">
+            <!-- 状态标签 -->
+            <view class="status-tag" :class="item.status === 'ONLINE' ? 'status-online' : (item.status === 'OFFLINE' ? 'status-offline' : 'status-repair')">
+              {{statusToText(item.status)}}
+            </view>
+            
+            <!-- 操作按钮（垂直排列） -->
+            <view class="action-btns">
+              <view class="action-btn config-action" @click.stop="handleGoToConfig(item)">
+                <text class="action-text">配网</text>
+              </view>
+              <view class="action-btn detail-action" @click.stop="handleGoToDetail(item)">
+                <text class="action-text">详情</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+        <view class="load-more" v-if="hasMore && !loading">上拉加载更多</view>
+        <view class="no-more" v-if="!hasMore && gatewayList.length > 0">已加载全部</view>
+      </view>
+      
     </view>
   </view>
 </template>
@@ -146,7 +191,7 @@ export default {
             const validList = list.filter(item => item && item.id);
             this.gatewayList = this.gatewayList.concat(validList);
             this.total = total;
-            this.hasMore = this.gatewayList.length + validList.length < total;
+            this.hasMore = this.gatewayList.length < total; // 修复分页逻辑
           } else {
             uni.showToast({ title: '接口返回异常', icon: 'none' });
           }
@@ -178,179 +223,280 @@ export default {
 </script>
 
 <style scoped>
-/* 全局容器 */
+/* ---------------- 全局容器 ---------------- */
 .container {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: #F7F8FA;
+  display: flex;
+  justify-content: center;
+}
+
+.safe-area {
   width: 100%;
-  height: 100vh;
-  background-color: #f5f5f5;
-}
-
-/* 搜索栏：极简风格 */
-.search-bar {
-  display: flex;
-  align-items: center;
-  padding: 10rpx 20rpx;
-  background: #fff;
-  border-bottom: 1rpx solid #eee;
-}
-
-.picker {
-  width: 130rpx;
-  height: 68rpx;
-  line-height: 68rpx;
-  text-align: center;
-  border: 1rpx solid #eee;
-  border-radius: 4rpx;
-  font-size: 26rpx;
+  max-width: 600px;
+  padding: 0 40rpx 40rpx;
   box-sizing: border-box;
 }
 
-.search-input {
-  flex: 1;
-  height: 68rpx;
-  margin: 0 10rpx;
-  padding: 0 12rpx;
-  border: 1rpx solid #eee;
-  border-radius: 4rpx;
-  font-size: 26rpx;
+/* ---------------- 核心：固定顶部区域 ---------------- */
+.fixed-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background-color: #F7F8FA;
+  padding: 60rpx 40rpx 20rpx;
+  padding-top: calc(60rpx + env(safe-area-inset-top));
   box-sizing: border-box;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.04);
 }
 
-.search-btn {
-  width: 100rpx;
-  height: 68rpx;
-  line-height: 68rpx;
-  font-size: 26rpx;
-  padding: 0;
-  border-radius: 4rpx;
+/* ---------------- 顶部标题 ---------------- */
+.header-section {
+  margin-bottom: 20rpx;
 }
 
-.add-btn {
-  width: 110rpx;
-  height: 68rpx;
-  line-height: 68rpx;
-  background: #3cc800;
-  color: #fff;
-  border-radius: 4rpx;
-  font-size: 26rpx;
-  margin-left: 8rpx;
-  border: none;
-}
-
-/* 网关列表容器 */
-.gateway-list {
-  padding: 10rpx;
-}
-
-/* 加载/空状态 */
-.empty, .loading, .load-more, .no-more {
-  padding: 25rpx 0;
-  text-align: center;
-  font-size: 26rpx;
-  color: #999;
-}
-
-/* 网关项：极简卡片 */
-.gateway-item {
-  background: #fff;
-  padding: 20rpx 15rpx;
-  margin: 0 5rpx 12rpx;
-  border-radius: 6rpx;
-  box-shadow: 0 1rpx 3rpx rgba(0,0,0,0.03);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-height: 140rpx; /* 固定最小高度，适配按钮垂直排列 */
-}
-
-/* 网关信息区域 */
-.gateway-info {
-  flex: 1;
-}
-
-.item-row {
-  display: flex;
-  align-items: center;
-  height: 56rpx;
+.page-title {
+  display: block;
+  font-size: 48rpx;
+  font-weight: 300;
+  color: #1D1D1F;
+  letter-spacing: -1rpx;
   margin-bottom: 8rpx;
 }
 
-.item-row:last-child {
+.page-subtitle {
+  display: block;
+  font-size: 24rpx;
+  font-weight: 400;
+  color: #86868B;
+  text-transform: uppercase;
+  letter-spacing: 2rpx;
+}
+
+/* ---------------- 搜索卡片 ---------------- */
+.search-card {
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 24rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+}
+
+.search-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+/* 选择器 */
+.search-picker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #F7F8FA;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  height: 72rpx;
+  flex-shrink: 0;
+}
+
+.picker-text {
+  font-size: 26rpx;
+  color: #1D1D1F;
+  margin-right: 8rpx;
+}
+
+.picker-arrow {
+  font-size: 28rpx;
+  color: #C7C7CC;
+  font-weight: 300;
+}
+
+/* 输入框 */
+.search-input {
+  flex: 1;
+  height: 72rpx;
+  background-color: #F7F8FA;
+  border-radius: 12rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #1D1D1F;
+}
+
+.input-placeholder {
+  color: #C7C7CC;
+}
+
+/* 按钮 */
+.search-btn, .add-btn {
+  height: 72rpx;
+  padding: 0 24rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.search-btn {
+  background-color: #F0F7FF;
+}
+
+.search-btn-text {
+  font-size: 26rpx;
+  color: #007AFF;
+  font-weight: 500;
+}
+
+.add-btn {
+  background-color: #007AFF;
+  box-shadow: 0 4rpx 12rpx rgba(0, 122, 255, 0.25);
+}
+
+.add-btn-text {
+  font-size: 26rpx;
+  color: #FFFFFF;
+  font-weight: 500;
+}
+
+/* ---------------- 列表区域（核心：增加顶部内边距） ---------------- */
+.list-wrapper {
+  width: 100%;
+  padding-top: 340rpx;
+}
+
+/* 网关大卡片 */
+.gateway-card {
+  width: 100%;
+  background-color: #FFFFFF;
+  border-radius: 20rpx;
+  padding: 32rpx;
+  box-sizing: border-box;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 20rpx rgba(0, 0, 0, 0.03);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  transition: all 0.2s ease;
+}
+
+.gateway-card:active {
+  transform: scale(0.995);
+  background-color: #FBFBFB;
+}
+
+/* 左侧信息 */
+.card-left {
+  flex: 1;
+  margin-right: 20rpx;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16rpx;
+}
+
+.info-row:last-child {
   margin-bottom: 0;
 }
 
-.label {
-  width: 130rpx;
-  color: #666;
+.info-label {
+  width: 140rpx;
   font-size: 26rpx;
-  text-align: right;
-  padding-right: 15rpx;
-  white-space: nowrap;
+  color: #86868B;
+  flex-shrink: 0;
 }
 
-.value {
+.info-value {
   flex: 1;
-  color: #333;
-  font-size: 26rpx;
+  font-size: 28rpx;
+  color: #1D1D1F;
+  font-weight: 400;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-/* 状态颜色 */
-.online { color: #00c800; }
-.offline { color: #999; }
-.repair { color: #ff9500; }
+/* 等宽字体（用于MAC/Key） */
+/* .mono {
+  font-family: monospace;
+  font-size: 26rpx;
+} */
 
-/* 操作按钮组：垂直排列 + 均分触摸区域（核心调整） */
-.action-group {
+/* 右侧状态与操作 */
+.card-right {
   display: flex;
-  flex-direction: column; /* 垂直排列 */
-  height: 120rpx; /* 固定高度，适配网关项 */
-  width: 80rpx; /* 按钮宽度 */
-  justify-content: space-between; /* 均分空间 */
-  align-items: center; /* 文字居中 */
-  margin-left: 15rpx;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 160rpx;
 }
 
-/* 中间空格 */
-.space {
-  height: 8rpx; /* 空格高度（间距） */
-  width: 100%;
+/* 状态标签 */
+.status-tag {
+  padding: 6rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 22rpx;
+  font-weight: 500;
 }
 
-/* 配网按钮：占上半部分触摸区域 */
-.config-btn {
+.status-online {
+  background-color: #E8F5E9;
+  color: #388E3C;
+}
+
+.status-offline {
+  background-color: #F5F5F7;
+  color: #86868B;
+}
+
+.status-repair {
+  background-color: #FFF3E0;
+  color: #F57C00;
+}
+
+/* 操作按钮 */
+.action-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+  margin-top: 20rpx;
+}
+
+.action-btn {
+  padding: 8rpx 20rpx;
+  border-radius: 10rpx;
+}
+
+.config-action {
+  background-color: #F0F7FF;
+}
+
+.detail-action {
+  background-color: #F5F5F7;
+}
+
+.action-text {
+  font-size: 24rpx;
+  color: #1D1D1F;
+}
+
+.config-action .action-text {
+  color: #007AFF;
+}
+
+/* 加载/空状态 */
+.empty, .loading, .load-more, .no-more {
+  padding: 60rpx 0;
+  text-align: center;
   font-size: 26rpx;
-  color: #007aff;
-  cursor: pointer;
-  width: 100%;
-  height: 50%; /* 占按钮组高度的一半 */
-  line-height: 60rpx; /* 垂直居中 */
-  text-align: center; /* 水平居中 */
-}
-
-/* 详情按钮：占下半部分触摸区域 */
-.detail-btn {
-  font-size: 26rpx;
-  color: #666;
-  cursor: pointer;
-  width: 100%;
-  height: 50%; /* 占按钮组高度的一半 */
-  line-height: 60rpx; /* 垂直居中 */
-  text-align: center; /* 水平居中 */
-}
-
-/* 点击反馈 */
-.config-btn:active {
-  color: #0066cc;
-  background-color: #f0f7ff;
-  border-radius: 4rpx;
-}
-
-.detail-btn:active {
-  color: #333;
-  background-color: #f5f5f5;
-  border-radius: 4rpx;
+  color: #86868B;
 }
 </style>
